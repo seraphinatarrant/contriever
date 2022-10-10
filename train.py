@@ -11,7 +11,7 @@ import random
 import pickle
 
 import torch.distributed as dist
-from torch.utils.data import DataLoader, RandomSampler
+from torch.utils.data import DataLoader, RandomSampler, get_worker_info
 
 from src.options import Options
 from src import data, beir_utils, slurm, dist_utils, utils
@@ -19,6 +19,11 @@ from src import moco, inbatch
 
 
 logger = logging.getLogger(__name__)
+
+def get_random_seed_info():
+    worker_seed = get_worker_info().seed
+    initial_seed = torch.initial_seed()
+    logger.info(f"Worker seed {worker_seed} and initial seed {initial_seed}")
 
 
 def train(opt, model, optimizer, scheduler, step):
@@ -44,6 +49,7 @@ def train(opt, model, optimizer, scheduler, step):
         drop_last=True,
         num_workers=opt.num_workers,
         collate_fn=collator,
+        worker_init_fn=get_random_seed_info,
     )
 
     epoch = 1
@@ -131,7 +137,7 @@ if __name__ == "__main__":
 
     options = Options()
     opt = options.parse()
-
+    print(options)
     torch.manual_seed(opt.seed)
     slurm.init_distributed_mode(opt)
     slurm.init_signal_handler()

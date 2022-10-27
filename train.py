@@ -9,6 +9,7 @@ import json
 import numpy as np
 import random
 import pickle
+import wandb
 
 import torch.distributed as dist
 from torch.utils.data import DataLoader, RandomSampler, get_worker_info
@@ -20,11 +21,21 @@ from src import moco, inbatch
 
 logger = logging.getLogger(__name__)
 
-def get_random_seed_info():
+def get_random_seed_info(worker_id):
     worker_seed = get_worker_info().seed
     initial_seed = torch.initial_seed()
-    logger.info(f"Worker seed {worker_seed} and initial seed {initial_seed}")
+    logger.info(f"Worker seed {worker_seed} and initial seed {initial_seed} on worker {worker_id}")
 
+def init_wandb(args):
+    wandb.init(
+    project="contriever_train", 
+    group=args.seed 
+    name=f"{args.retriever_model_id}_{args.seed}", 
+    config={
+        "seed": args.seed,
+        "model_base": args.retriever_model_id,
+
+    })
 
 def train(opt, model, optimizer, scheduler, step):
 
@@ -77,6 +88,7 @@ def train(opt, model, optimizer, scheduler, step):
                 log = f"{step} / {opt.total_steps}"
                 for k, v in sorted(run_stats.average_stats.items()):
                     log += f" | {k}: {v:.3f}"
+                    wandb.log({k:v})
                     if tb_logger:
                         tb_logger.add_scalar(k, v, step)
                 log += f" | lr: {scheduler.get_last_lr()[0]:0.3g}"
@@ -196,6 +208,8 @@ if __name__ == "__main__":
             find_unused_parameters=False,
         )
         dist.barrier()
+
+    init_wandb(opt)
 
     logger.info("Start training")
     train(opt, model, optimizer, scheduler, step)

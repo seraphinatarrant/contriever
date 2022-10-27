@@ -1,0 +1,55 @@
+model_paths:
+  0: /checkpoint/seraphina/contriever/65409502-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-google/multiberts-seed_0-delete-0.1/checkpoint/latest
+  1: /checkpoint/seraphina/contriever/65411467-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-google/multiberts-seed_1-delete-0.1/checkpoint/latest
+  2: /checkpoint/seraphina/contriever/65411468-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-google/multiberts-seed_2-delete-0.1/checkpoint/latest
+  3: /checkpoint/seraphina/contriever/65959791-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_3/checkpoint/latest/
+  4: /checkpoint/seraphina/contriever/65411469-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-google/multiberts-seed_4-delete-0.1/checkpoint/latest
+  5: /checkpoint/seraphina/contriever/65416637-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-google/multiberts-seed_5-delete-0.1/checkpoint/latest
+  6: /checkpoint/seraphina/contriever/65421994-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_6/checkpoint/latest
+  7: /checkpoint/seraphina/contriever/65422002-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_7/checkpoint/latest
+  8: /checkpoint/seraphina/contriever/65422010-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_8/checkpoint/latest
+  9: /checkpoint/seraphina/contriever/65422045-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_9/checkpoint/latest
+  10: /checkpoint/seraphina/contriever/65461596-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_10/checkpoint/latest
+  11: /checkpoint/seraphina/contriever/65461601-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_11/checkpoint/latest
+  12: /checkpoint/seraphina/contriever/65461627-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_12/checkpoint/latest
+  13: /checkpoint/seraphina/contriever/65461647-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_13/checkpoint/latest
+  14: /checkpoint/seraphina/contriever/65461650-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_14/checkpoint/latest
+  15: /checkpoint/seraphina/contriever/65682280-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_15/checkpoint/latest
+  16: /checkpoint/seraphina/contriever/65468213-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_16/checkpoint/latest
+  17: /checkpoint/seraphina/contriever/65682281-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_17/checkpoint/latest
+  18: /checkpoint/seraphina/contriever/65682282-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_18/checkpoint/latest
+  19: /checkpoint/seraphina/contriever/65682283-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_19/checkpoint/latest
+  20: /checkpoint/seraphina/contriever/65682284-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_20/checkpoint/latest
+  21: /checkpoint/seraphina/contriever/65682285-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_21/checkpoint/latest
+  22: /checkpoint/seraphina/contriever/65682286-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_22/checkpoint/latest
+  23: /checkpoint/seraphina/contriever/65682287-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_23/checkpoint/latest
+  24: /checkpoint/seraphina/contriever/65682288-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_24/checkpoint/latest
+
+
+logs:
+  0: /checkpoint/seraphina/contriever/65409502-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-google/multiberts-seed_0-delete-0.1/run.log
+  1: /checkpoint/seraphina/contriever/65411467-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-google/multiberts-seed_1-delete-0.1/run.log
+  2: /checkpoint/seraphina/contriever/65411468-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-google/multiberts-seed_2-delete-0.1/run.log
+  3: /checkpoint/seraphina/contriever/65959791-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_3/run.log
+  4: /checkpoint/seraphina/contriever/65411469-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-google/multiberts-seed_4-delete-0.1/run.log
+  5: /checkpoint/seraphina/contriever/65416637-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-google/multiberts-seed_5-delete-0.1/run.log
+  6: /checkpoint/seraphina/contriever/65421994-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_6/run.log
+  7: /checkpoint/seraphina/contriever/65422002-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_7/run.log
+  8: /checkpoint/seraphina/contriever/65422010-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_8/run.log
+  9: /checkpoint/seraphina/contriever/65422045-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_9/run.log
+  10: /checkpoint/seraphina/contriever/65461596-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_10/run.log
+  11: /checkpoint/seraphina/contriever/65461601-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_11/run.log
+  12: /checkpoint/seraphina/contriever/65461627-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_12/run.log
+  13: /checkpoint/seraphina/contriever/65461647-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_13/run.log
+  14: /checkpoint/seraphina/contriever/65461650-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_14/run.log
+  15: /checkpoint/seraphina/contriever/65682280-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_15//run.log
+  16: /checkpoint/seraphina/contriever/65468213-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_16/run.log
+  17: /checkpoint/seraphina/contriever/65682281-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_17/run.log
+  18: /checkpoint/seraphina/contriever/65682282-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_18/run.log
+  19: /checkpoint/seraphina/contriever/65682283-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_19/run.log
+  20: /checkpoint/seraphina/contriever/65682284-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_20/run.log
+  21: /checkpoint/seraphina/contriever/65682285-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_21/run.log
+  22: /checkpoint/seraphina/contriever/65682286-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_22/run.log
+  23: /checkpoint/seraphina/contriever/65682287-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_23/run.log
+  24: /checkpoint/seraphina/contriever/65682288-average-rmin0.05-rmax0.5-T0.05-131072-0.9995-delete-0.1-google_multiberts-seed_24/run.log
+

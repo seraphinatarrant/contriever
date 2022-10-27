@@ -1,0 +1,49 @@
+all_datasets:
+  - arguana
+  - climate-fever
+  - cqadupstack
+  - dbpedia-entity
+  - fever
+  - fiqa
+  - germanquad
+  - hotpotqa
+  - mmarco
+  - mrtydi
+  - msmarco-v2
+  - msmarco
+  - nfcorpus
+  - nq-train # this seems huge probs not good for this
+  - nq
+  - quora
+  - scidocs
+  - scifact
+  - trec-covid-beir
+  - trec-covid-v2
+  - trec-covid
+  - vihealthqa # what is this one?
+  - webis-touche2020
+
+en_datasets:
+  - arguana
+  - climate-fever
+  - cqadupstack
+  - dbpedia-entity
+  - fever
+  - fiqa
+  - hotpotqa
+  - msmarco-v2
+  - msmarco
+  - nfcorpus
+  - nq
+  - quora
+  - scidocs
+  - scifact
+  - trec-covid-beir
+  - trec-covid-v2
+  - trec-covid
+  - webis-touche2020
+
+multi_datasets:
+  - germanquad
+  - mmarco
+  - mrtydi

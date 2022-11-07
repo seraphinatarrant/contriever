@@ -29,7 +29,7 @@ def get_random_seed_info(worker_id):
 def init_wandb(args):
     wandb.init(
     project="contriever_train", 
-    group=args.seed 
+    group="seed_{}".format(args.seed), 
     name=f"{args.retriever_model_id}_{args.seed}", 
     config={
         "seed": args.seed,

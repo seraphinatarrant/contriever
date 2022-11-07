@@ -1,5 +1,6 @@
 import wandb
 import pandas as pd
+import numpy as np
 
 from collections import defaultdict
 
@@ -33,7 +34,7 @@ def get_wandb_summary(project_name="seraphinatarrant/biasinbios MDL probing"):
         })
     return runs_df
 
-def get_model_compression(wandb_df) -> defaultdict(dict):
+def get_model_compression(wandb_df, shards: bool = False) -> defaultdict(dict):
     all_c = [i.get("compression", 0) for i in wandb_df["summary"]]
     all_seeds = ([i["seed"] for i in wandb_df["config"]])
     all_models = [i.get("model_subtype", "contriever") for i in wandb_df["config"]]
@@ -41,8 +42,19 @@ def get_model_compression(wandb_df) -> defaultdict(dict):
 
     unique_types = set(all_data_types)
     type2model2seed2compression = {i: defaultdict(dict) for i in unique_types}
-
-    for data_type, model,seed,compression in zip(all_data_types, all_models, all_seeds, all_c):
-        type2model2seed2compression[data_type][model][f"seed_{seed}"] = compression
     
+    for data_type, model,seed,compression in zip(all_data_types, all_models, all_seeds, all_c):
+        if shards:
+            if f"seed_{seed}" in type2model2seed2compression[data_type][model]:
+                type2model2seed2compression[data_type][model][f"seed_{seed}"].append(compression)
+            else:
+                type2model2seed2compression[data_type][model][f"seed_{seed}"] = [compression]
+        else:    
+            type2model2seed2compression[data_type][model][f"seed_{seed}"] = compression
+    if shards:
+        for data_type in unique_types:
+            for model in set(all_models):
+                for seed in set(all_seeds):
+                    val = type2model2seed2compression[data_type][model][f"seed_{seed}"]
+                    type2model2seed2compression[data_type][model][f"seed_{seed}"] = np.mean(val)
     return type2model2seed2compression

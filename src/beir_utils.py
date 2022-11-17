@@ -3,7 +3,10 @@
 import os
 from collections import defaultdict
 from typing import List, Dict
+from tqdm import tqdm
+import logging
 import numpy as np
+import pandas as pd
 import torch
 import torch.distributed as dist
 
@@ -18,6 +21,7 @@ from beir.reranking import Rerank
 import src.dist_utils as dist_utils
 from src import normalize_text
 
+logger = logging.getLogger(__name__)
 
 class DenseEncoderModel:
     def __init__(
@@ -185,7 +189,20 @@ def evaluate_model(
                 for key, value in metric.items():
                     metrics[key].append(value)
             if save_results_path is not None:
-                torch.save(results, f"{save_results_path}")
+                top_n = 1000
+                logger.info(f"Saving top {top_n} results to {save_results_path}")
+                # convert from dicts for space saving and to truncate to 1k results 
+                all_df = []
+                for key in tqdm(results.keys()):
+                    res = results[key]
+                    top_keys = set(sorted(res, key=res.get, reverse=True)[:top_n])
+                    res_cap = {key: val for key, val in res.items() if key in top_keys}
+                    new_df = pd.DataFrame(res_cap.items(), columns=["corpus-id", "score"])
+                    new_df["query-id"] = key
+                    all_df.append(new_df)
+                master_df = pd.concat(all_df, ignore_index=True)
+                master_df.to_pickle(f"{save_results_path}")
+                #torch.save(results, f"{save_results_path}")
     elif dataset == "cqadupstack":  # compute macroaverage over datasets
         paths = glob.glob(data_path)
         for path in paths:

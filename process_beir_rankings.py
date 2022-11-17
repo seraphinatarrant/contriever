@@ -55,7 +55,7 @@ if __name__ == "__main__":
         print("reading queries")
         queries = pd.read_json(f"beir/{args.dataset}/queries.jsonl", lines=True)
         # randomly sample
-        qids = random.sample(results.keys(), n_samples)
+        qids = random.sample(list(results.keys()), n_samples)
         corpus = pd.read_json(f"beir/{args.dataset}/corpus.jsonl", lines=True)
         for qid in qids:
             query_text = queries[ queries["_id"] == qid ]["text"].values[0]

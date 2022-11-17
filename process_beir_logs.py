@@ -16,14 +16,20 @@ from utils.wandb_utils import get_wandb_summary, get_model_compression
 COLUMNS = ["model", "seed", "dataset", "metric", "value", "compression", "data_type", "compression_dataset"] # for pandas dataframe
 ndcg_pattern = re.compile("(?<=eval_beir\.py).*INFO.*NDCG@10:.*") # for parsing logs for ndcg@10
 metric_pattern = re.compile("(?<=eval_beir\.py).*INFO.*:.*:.*") # for parsing logs for any metric
+seed_pattern = re.compile("seed_[0-9]+")
+model_pattern = re.compile("[A-z]*(?=/seed_)")
+
+gender_datasets = ["nq-train-new-complement", "nq-train-new-gender", "nq-train-new-male", "nq-train-new-female"]
 """
 Pattern
 [10/11/2022 20:31:08] {eval_beir.py:61} INFO - dbpedia-entity : NDCG@10: 21.3
 """
 
 def get_model_and_seed(text):
-    # pattern will always be prefix/MODEL/SEED_N/run.log
-    prefix, model, seed, _ = text.rsplit("/", 3)
+    # pattern will always be prefix/MODEL/SEED_N/run.log for normal datasets, but there might be more things between seed and run.log
+    seed = seed_pattern.search(text).group(0)
+    model = model_pattern.search(text).group(0)
+    #prefix, model, seed, _ = text.rsplit("/", 3)
     return model, seed
 
 def add_average_to_dataset(df, metric="NDCG@10", model="contriever", compression_dataset="biasinbios"):
@@ -59,11 +65,23 @@ def add_average_to_dataset(df, metric="NDCG@10", model="contriever", compression
 
     return pd.concat([df, df2], ignore_index=True, axis=0)
 
+def generate_all_seed_logs(log_pattern, desired_seeds):
+    log_paths = []
+    for i in range(25):
+        if i==13:
+            continue
+        if desired_seeds:
+            if i not in desired_seeds:
+                continue
+        log_paths.append(log_pattern.format(i))
+    return log_paths
+
 def setup_argparse():
     p = argparse.ArgumentParser()
     p.add_argument('--seeds', nargs="+", help='limit to just these seeds')
     p.add_argument('--output', default='beir/results/contriever/logs_df_{}.pkl', help="place to save dataframe")
     p.add_argument('--metric', default='NDCG@10', choices=['NDCG@10', 'all'])
+    p.add_argument('--gender', action='store_true', help="process gender logs instead of standard beir")
     p.add_argument('--compression_dataset', default='biasinbios', 
                   choices=['biasinbios', 'wizard', 'wizard_binary', 'wikipedia'])
     return p.parse_args()
@@ -75,20 +93,21 @@ if __name__ == "__main__":
     regex_pattern = ndcg_pattern if args.metric == "NDCG@10" else metric_pattern
     compression_dataset = args.compression_dataset
     output = args.output.format(compression_dataset)
-    #log_files = args.log_files
-    log_files = []
-    log_pattern = "beir/results/contriever/seed_{}/run.log"
     desired_seeds = set(map(int, args.seeds)) if bool(args.seeds) else False
-    for i in range(25):
-        if desired_seeds:
-            if i not in desired_seeds:
-                continue
-        log_files.append(log_pattern.format(i))
+
+    if not args.gender:
+        log_pattern = "beir/results/contriever/seed_{}/run.log"
+        log_files = generate_all_seed_logs(log_pattern, desired_seeds)
+    else:
+        log_files = []
+        for ds in gender_datasets:
+            log_pattern = "beir/results/contriever/seed_{}/" + f"{ds}/run.log"
+            log_files.extend(generate_all_seed_logs(log_pattern, desired_seeds))
     
     project_name = f"seraphinatarrant/{compression_dataset} MDL probing"
     runs_df = get_wandb_summary()
     t2m2s2c = get_model_compression(runs_df)
-    with open(f"{compression_dataset}_type2model2seed2compression.pkl", "wb") as fout: # save for later since it's easier to have this mapping
+    with open(f"compression_logs/{compression_dataset}_type2model2seed2compression.pkl", "wb") as fout: # save for later since it's easier to have this mapping
         pickle.dump(t2m2s2c, fout)
 
     all_results = []

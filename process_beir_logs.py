@@ -67,12 +67,10 @@ def add_average_to_dataset(df, metric="NDCG@10", model="contriever", compression
 
 def generate_all_seed_logs(log_pattern, desired_seeds):
     log_paths = []
-    for i in range(25):
+    seed_list = desired_seeds if desired_seeds else range(25)
+    for i in seed_list:
         if i==13:
             continue
-        if desired_seeds:
-            if i not in desired_seeds:
-                continue
         log_paths.append(log_pattern.format(i))
     return log_paths
 

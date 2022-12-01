@@ -1,5 +1,6 @@
 import re
 import sys
+import os
 import argparse
 import pickle
 from collections import defaultdict
@@ -80,8 +81,10 @@ def setup_argparse():
     p.add_argument('--output', default='beir/results/contriever/logs_df_{}.pkl', help="place to save dataframe")
     p.add_argument('--metric', default='NDCG@10', choices=['NDCG@10', 'all'])
     p.add_argument('--gender', action='store_true', help="process gender logs instead of standard beir")
+    p.add_argument('--inlp', action='store_true', help="process inlp logs instead of standard beir")
     p.add_argument('--compression_dataset', default='biasinbios', 
                   choices=['biasinbios', 'wizard', 'wizard_binary', 'wikipedia'])
+    p.add_argument('--save_compression', action='store_true')
     return p.parse_args()
 
 
@@ -93,20 +96,24 @@ if __name__ == "__main__":
     output = args.output.format(compression_dataset)
     desired_seeds = set(map(int, args.seeds)) if bool(args.seeds) else False
 
+    base_pattern = "beir/results/contriever/seed_{}/"  # I changed the base patterns just to make parsing results files easier for special experiments
+    if args.inlp:
+        base_pattern = os.path.join(base_pattern, "inlp")
     if not args.gender:
-        log_pattern = "beir/results/contriever/seed_{}/run.log"
+        log_pattern = os.path.join(base_pattern, "run.log")
         log_files = generate_all_seed_logs(log_pattern, desired_seeds)
     else:
         log_files = []
         for ds in gender_datasets:
-            log_pattern = "beir/results/contriever/seed_{}/" + f"{ds}/run.log"
+            log_pattern = os.path.join(base_pattern, f"{ds}/run.log")
             log_files.extend(generate_all_seed_logs(log_pattern, desired_seeds))
     
     project_name = f"seraphinatarrant/{compression_dataset} MDL probing"
     runs_df = get_wandb_summary()
     t2m2s2c = get_model_compression(runs_df)
-    with open(f"compression_logs/{compression_dataset}_type2model2seed2compression.pkl", "wb") as fout: # save for later since it's easier to have this mapping
-        pickle.dump(t2m2s2c, fout)
+    if args.save_compression:
+        with open(f"compression_logs/{compression_dataset}_type2model2seed2compression.pkl", "wb") as fout: # save for later since it's easier to have this mapping
+            pickle.dump(t2m2s2c, fout)
 
     all_results = []
     for log_file in tqdm(log_files):

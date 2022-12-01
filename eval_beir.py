@@ -34,6 +34,8 @@ def main(args):
     model, tokenizer, _ = src.contriever.load_retriever(args.model_name_or_path)
     model = model.cuda()
     model.eval()
+    if args.projection_matrix:
+        model.projection_matrix = torch.load(args.projection_matrix)
     query_encoder = model
     doc_encoder = model
 
@@ -54,6 +56,8 @@ def main(args):
         save_results_path=args.save_results_path,
         lower_case=args.lower_case,
         normalize_text=args.normalize_text,
+        inlp_corpus=args.inlp_corpus,
+        inlp_query=args.inlp_query,
     )
 
     if src.dist_utils.is_main():
@@ -81,6 +85,11 @@ if __name__ == "__main__":
         "--normalize_text", action="store_true", help="Apply function to normalize some common characters"
     )
     parser.add_argument("--save_results_path", type=str, default=None, help="Path to save result object")
+
+    # INLP
+    parser.add_argument("--inlp_query", action='store_true', help="if set projects query reps via the given matrix")
+    parser.add_argument("--inlp_corpus", action='store_true', help="if set projects corpus reps via the given matrix")
+    parser.add_argument("--projection_matrix", type=str, default=None, help="Path to torch file with projection matrix matching model")
 
     parser.add_argument("--local_rank", type=int, default=-1, help="For distributed training: local_rank")
     parser.add_argument("--main_port", type=int, default=-1, help="Main port (for multi-node SLURM jobs)")

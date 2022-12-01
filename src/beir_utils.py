@@ -142,6 +142,8 @@ def evaluate_model(
     save_results_path=None,
     lower_case=False,
     normalize_text=False,
+    inlp_corpus=False,
+    inlp_query=False,
 ):
 
     metrics = defaultdict(list)  # store final results
@@ -169,6 +171,8 @@ def evaluate_model(
             normalize_text=normalize_text,
         ),
         batch_size=batch_size,
+        inlp_corpus=inlp_corpus,
+        inlp_query=inlp_query,
     )
     retriever = EvaluateRetrieval(dmodel, score_function=score_function)
     data_path = os.path.join(beir_dir, dataset)
@@ -181,6 +185,7 @@ def evaluate_model(
     if not dataset == "cqadupstack":
         corpus, queries, qrels = GenericDataLoader(data_folder=data_path).load(split=split)
         results = retriever.retrieve(corpus, queries)
+        logger.info("Calculating metrics...")
         if is_main:
             ndcg, _map, recall, precision = retriever.evaluate(qrels, results, retriever.k_values)
             for metric in (ndcg, _map, recall, precision, "mrr", "recall_cap", "hole"):

@@ -20,7 +20,8 @@ metric_pattern = re.compile("(?<=eval_beir\.py).*INFO.*:.*:.*") # for parsing lo
 seed_pattern = re.compile("seed_[0-9]+")
 model_pattern = re.compile("[A-z]*(?=/seed_)")
 
-gender_datasets = ["nq-train-new-complement", "nq-train-new-gender", "nq-train-new-male", "nq-train-new-female"]
+gender_datasets = ["nq-train-new-complement", "nq-train-new-gender", "nq-train-new-male", "nq-train-new-female",
+                     "msmarco-female", "msmarco-male", "msmarco-neutral", "msmarco-gender"]
 """
 Pattern
 [10/11/2022 20:31:08] {eval_beir.py:61} INFO - dbpedia-entity : NDCG@10: 21.3
@@ -83,7 +84,7 @@ def setup_argparse():
     p.add_argument('--gender', action='store_true', help="process gender logs instead of standard beir")
     p.add_argument('--inlp', action='store_true', help="process inlp logs instead of standard beir")
     p.add_argument('--compression_dataset', default='biasinbios', 
-                  choices=['biasinbios', 'wizard', 'wizard_binary', 'wikipedia'])
+                  choices=['biasinbios', 'biasinbios_profession','wizard', 'wizard_binary', 'wikipedia', 'wikipedia_binary'])
     p.add_argument('--save_compression', action='store_true')
     return p.parse_args()
 
@@ -109,7 +110,7 @@ if __name__ == "__main__":
             log_files.extend(generate_all_seed_logs(log_pattern, desired_seeds))
     
     project_name = f"seraphinatarrant/{compression_dataset} MDL probing"
-    runs_df = get_wandb_summary()
+    runs_df = get_wandb_summary(project_name=project_name)
     t2m2s2c = get_model_compression(runs_df)
     if args.save_compression:
         with open(f"compression_logs/{compression_dataset}_type2model2seed2compression.pkl", "wb") as fout: # save for later since it's easier to have this mapping
